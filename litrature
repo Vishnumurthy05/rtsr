@@ -1,1 +1,108 @@
-https://chatgpt.com/canvas/shared/67c27875a7b481919635f1ea207d3d61
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Encryption and Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Message Encryption and Decryption</h2>
+
+    <label for="shift">Shift Value:</label>
+    <input type="number" id="shift" placeholder="Enter shift value (1-25)" min="1" max="25">
+
+    <label for="message">Message:</label>
+    <textarea id="message" placeholder="Enter your message here..."></textarea>
+
+    <button onclick="encryptMessage()">Encrypt Message</button>
+    <button onclick="decryptMessage()">Decrypt Message</button>
+
+    <h3>Encrypted/Decrypted Message:</h3>
+    <textarea id="result" readonly placeholder="Encrypted or Decrypted message will appear here..."></textarea>
+</div>
+
+<script>
+    function caesarCipher(str, shift) {
+        return str.split('').map(char => {
+            let code = char.charCodeAt(0);
+            if (char >= 'A' && char <= 'Z') {
+                return String.fromCharCode((code - 65 + shift) % 26 + 65);
+            } else if (char >= 'a' && char <= 'z') {
+                return String.fromCharCode((code - 97 + shift) % 26 + 97);
+            }
+            return char;
+        }).join('');
+    }
+
+    function encryptMessage() {
+        let message = document.getElementById('message').value;
+        let shift = parseInt(document.getElementById('shift').value);
+        
+        if (isNaN(shift) || shift < 1 || shift > 25) {
+            alert("Please enter a valid shift value (1-25).");
+            return;
+        }
+        
+        let encryptedMessage = caesarCipher(message, shift);
+        document.getElementById('result').value = encryptedMessage;
+    }
+
+    function decryptMessage() {
+        let message = document.getElementById('message').value;
+        let shift = parseInt(document.getElementById('shift').value);
+        
+        if (isNaN(shift) || shift < 1 || shift > 25) {
+            alert("Please enter a valid shift value (1-25).");
+            return;
+        }
+        
+        let decryptedMessage = caesarCipher(message, -shift);
+        document.getElementById('result').value = decryptedMessage;
+    }
+</script>
+
+</body>
+</html>
